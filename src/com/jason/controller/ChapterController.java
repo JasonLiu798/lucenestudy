@@ -12,11 +12,14 @@ import com.jason.dto.LawEntry;
 
 public class ChapterController {
 	private DBCPPoolManager dm;
-
-	public ChapterController() {
+	private LawEntryController lc;
+	public ChapterController( DBCPPoolManager dm ,LawEntryController lc) {
 		if (dm == null) {
 			dm = new DBCPPoolManager();
 			dm.startService();
+		}
+		if(lc == null){
+			lc = new LawEntryController();
 		}
 	}
 
@@ -55,6 +58,16 @@ public class ChapterController {
 					}
 				}
 			}
+			
+			
+			List<LawEntry> lws = tmpCp.getLawEntrys();
+			lc.saveEntry( tmpCp , lws);
+			
+//			Iterator itet = lws.iterator();
+//			while(itet.hasNext()){
+//				LawEntry lw = (LawEntry) itet.next();
+//				
+//			}
 		}
 	}
 

@@ -11,17 +11,22 @@ import com.jason.dto.Chapter;
 import com.jason.dto.LawEntry;
 
 public class LawEntryController {
+	private DBCPPoolManager dm;
 	
+	public LawEntryController(DBCPPoolManager dm){
+		this.dm = dm;
+	}
 	
-	public boolean save2Db(Connection conn,Chapter cp,List<LawEntry> lws){
+	public boolean saveEntry( Chapter cp,List<LawEntry> lws){
 		boolean res = false;
-		
+		Connection conn = null;
 		PreparedStatement stmt = null;
-		Iterator it = lws.iterator();
+		Iterator<LawEntry> it = lws.iterator();
 		
 		while (it.hasNext()) {
-			LawEntry tmpLw = (LawEntry) it.next();
+			LawEntry tmpLw = it.next();
 			try {
+				conn = dm.getConnection();
 				stmt = conn.prepareStatement("INSERT INTO lawentry ( eid, cid,ename,content) "
 								+ " VALUES(?, ?, ?, ?)");
 				stmt.setInt(1, cp.getCid() );
@@ -53,8 +58,7 @@ public class LawEntryController {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }
