@@ -4,10 +4,19 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Chapter {
+	
 	private int cid;
+	private int lid;
 	private String cname;
+	
 	private List<LawEntry> lawEntrys;
 	
+	public int getLid() {
+		return lid;
+	}
+	public void setLid(int lid) {
+		this.lid = lid;
+	}
 	public List<LawEntry> getLawEntrys() {
 		return lawEntrys;
 	}

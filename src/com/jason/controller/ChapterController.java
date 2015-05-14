@@ -13,62 +13,83 @@ import com.jason.dto.LawEntry;
 public class ChapterController {
 	private DBCPPoolManager dm;
 	private LawEntryController lc;
+	
+	public ChapterController() {
+		if (dm == null) {
+			dm = new DBCPPoolManager();
+			dm.startService();
+		}
+		if(lc == null){
+			lc = new LawEntryController(dm);
+		}
+	}
+	
+	public Chapter getChapterById(int cid){
+		Chapter ch = new Chapter();
+		
+		return ch;
+	}
+	
+	
 	public ChapterController( DBCPPoolManager dm ,LawEntryController lc) {
 		if (dm == null) {
 			dm = new DBCPPoolManager();
 			dm.startService();
 		}
 		if(lc == null){
-			lc = new LawEntryController();
+			lc = new LawEntryController(dm);
 		}
 	}
-
-	public void saveChapters(List<Chapter> cps) {
-		Iterator it = (Iterator) cps.iterator();
+	
+	public boolean saveOne(Chapter cp){
 		Connection conn = null;
 		PreparedStatement stmt = null;
+		boolean res = false;
 		try {
 			conn = dm.getConnection();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		while (it.hasNext()) {
-			Chapter tmpCp = (Chapter) it.next();
-			try {
-				stmt = conn
-						.prepareStatement("INSERT INTO chapter ( cid,  cname)  VALUES(?, ?)");
-				stmt.setInt(1, tmpCp.getCid());
-				stmt.setString(2, tmpCp.getCname());
-				stmt.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				if (conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+			stmt = conn
+					.prepareStatement("INSERT INTO chapter ( law, cid,  cname)  VALUES(?, ?,?)");
+			stmt.setInt(1, cp.getLid());
+			stmt.setInt(2, cp.getCid());
+			stmt.setString(3, cp.getCname());
+			res = stmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
-			
-			
-			List<LawEntry> lws = tmpCp.getLawEntrys();
-			lc.saveEntry( tmpCp , lws);
-			
-//			Iterator itet = lws.iterator();
-//			while(itet.hasNext()){
-//				LawEntry lw = (LawEntry) itet.next();
-//				
-//			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		
+		List<LawEntry> lws = cp.getLawEntrys();
+		lc.saveAll( lws);
+		return res;
+	}
+	
+	
+
+	public boolean saveAll(List<Chapter> cps) {
+		Iterator it = (Iterator) cps.iterator();
+		
+		boolean res = true;
+		while (it.hasNext()) {
+			Chapter tmpCp = (Chapter) it.next();
+			if(!this.saveOne(tmpCp)){
+				res = false;
+			}
+		}
+		return res;
 	}
 
 	public static void main(String[] args) {

@@ -13,11 +13,12 @@ import com.jason.controller.ChapterController;
 import com.jason.dto.Chapter;
 import com.jason.dto.LawEntry;
 
-public class Test {
+public class SepAndInsert {
 
 	public static void main(String[] args) {
 
-		String hbf = "D:\\up\\file\\hbf.txt";
+//		String hbf = "D:\\up\\file\\hbf.txt";
+		String hbf = "D:\\up\\file\\scf.txt";
 		
 		BufferedReader reader = null;
 		StringBuffer sb = new StringBuffer();
@@ -37,8 +38,10 @@ public class Test {
 			Chapter preCp = null;
 			LawEntry le = null;
 
-			int cid = 1;
-			int eid = 1;
+//			int cid = 1;
+//			int eid = 1;
+			int cid = 11;
+			int eid = 201;
 			List<Chapter> cps = new LinkedList();
 			
 			while ((line = reader.readLine()) != null) {
@@ -60,7 +63,8 @@ public class Test {
 					System.out.println("Chapter:" + cname);
 					cp = new Chapter();
 					cp.setCid(cid);
-					cp.setCname("");
+					cp.setCname(line );
+					cp.setLid(2);
 					List<LawEntry> les = new LinkedList<LawEntry>();
 					cp.setLawEntrys(les);
 					cps.add(cp);
@@ -73,6 +77,7 @@ public class Test {
 					le = new LawEntry();
 					String[] seps = line.split("条");
 					String entryContent = "";
+					String ename = seps[0]+"条";
 					if (seps.length == 2) {
 						entryContent = seps[1];
 					} else if (seps.length > 2) {
@@ -82,19 +87,20 @@ public class Test {
 					}
 					le.setCid(cp.getCid());
 					le.setEid(eid);
+					le.setEname(ename );
 					le.setContent(entryContent);
 					cp.getLawEntrys().add(le);
 					System.out.println("Entry:" + entryContent);
 					eid++;
 					// System.out.println("Entry"+i+":"+ line );
 				} else {
-					le.setContent(le.getCid() + line);
+					le.setContent(le.getContent()+ line);
 					System.out.println("ot" + i + ":" + line);
 				}
 			}
 			
-			ChapterController cc = new ChapterController();
-			cc.saveChapters(cps);
+			ChapterController cc = new ChapterController( );
+			cc.saveAll(cps);
 			
 			
 //			Iterator it = (Iterator) cps.iterator();
