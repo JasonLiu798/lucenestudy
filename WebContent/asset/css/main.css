@@ -1,0 +1,48 @@
+.indexbody{
+	text-align:center;
+	/*background-image: url(https://laracasts.com/images/hero.jpg);*/
+	background-image: url(../image/hero.jpg);
+	background-size: cover;
+	color: #fff;
+}
+
+.resbody{
+	/*background-image: url(https://laracasts.com/images/hero.jpg);*/
+	background-image: url(../image/hero.jpg);
+	background-size: cover;
+	color: #fff;
+}
+.hightlightres{
+	color: FFFF99;
+}
+.searchbox{
+	width:778px; margin:100px auto; text-align:center;
+}
+
+.searchform{
+	width:778px; margin:20 auto; text-align:center;
+}
+
+.res{
+	margin:10 10 10 50;
+}
+
+
+a:link {color:#fff;}		/* 未被访问的链接 */
+a:visited {color:#fff; }	/* 已被访问的链接 */
+a:hover {color:#F9604C; text-decoration:none;}	/* 鼠标指针移动到链接上 */
+a:active {color:#F9604C;}
+
+.chapterdiv{
+	border:1px solid #ddd;
+	margin:5px;
+	padding:10px;
+}
+.footbox{
+	text-align:right;
+	color: #555;/* #000066;*/
+	padding:10px;
+}
+
+.footbox a:link {color:#333;}		/* 未被访问的链接 */
+.footbox a:visited {color:#333; }	/* 已被访问的链接 */
