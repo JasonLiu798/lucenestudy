@@ -8,6 +8,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
+    <link rel="Bookmark" type="image/x-icon" href="asset/image/law.png" />
+	<link rel="icon" type="image/x-icon" href="asset/image/law.png" />
+	<link rel="shortcut icon" type="image/x-icon" href="asset/image/law.png" />
+    
+    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    

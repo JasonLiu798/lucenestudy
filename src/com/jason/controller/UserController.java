@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.dbcp.BasicDataSource;
+
 import com.jason.database.DBCPPoolManager;
 import com.jason.dto.Keyword;
 import com.jason.dto.LawEntry;
@@ -14,23 +16,23 @@ import com.jason.dto.User;
 
 public class UserController {
 	
-	private DBCPPoolManager dm;
+	private BasicDataSource dm;
 	
 	
-	public UserController(){
-		if (dm == null) {
-			dm = new DBCPPoolManager();
-			dm.startService();
-		}
+	private UserController(){
+//		if (dm == null) {
+//			dm = new DBCPPoolManager();
+//			dm.startService();
+//		}
 	}
 	
-	public UserController(DBCPPoolManager dm){
-		if (dm != null) {
-			this.dm = dm;
-		}else{
-			dm = new DBCPPoolManager();
-			dm.startService();
-		}
+	public UserController(BasicDataSource dm){
+//		if (dm != null) {
+		this.dm = dm;
+//		}else{
+//			dm = new DBCPPoolManager();
+//			dm.startService();
+//		}
 	}
 	
 	public boolean saveOne(User user){

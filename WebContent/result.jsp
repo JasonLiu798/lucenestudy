@@ -6,8 +6,9 @@
 <%@ include file="head.jsp"%>
 
 <%
-LawEntrysRes les = (LawEntrysRes)request.getAttribute("lws");
-List<LawEntry> lws = les.getLelist();
+LawEntrysRes les = (LawEntrysRes)request.getAttribute("les");
+
+
 %>
 	
 	
@@ -18,6 +19,9 @@ List<LawEntry> lws = les.getLelist();
   
 	<div class="res">
   <% 
+  if(les!=null){
+		List<LawEntry> lws = les.getLelist();//les.getLelist();	
+
   if(lws!=null && lws.size()>0 ){
   	Iterator<LawEntry> it = les.getLelist().iterator();
   	while(it.hasNext() ){
@@ -36,6 +40,9 @@ List<LawEntry> lws = les.getLelist();
   	  </div>
 	 <% 
 	}
+  }else{
+	  out.print("<h3>无结果&nbsp;%&gt;_&lt;%</h3>");
+  }
   }else{
 	  out.print("<h3>无结果&nbsp;%&gt;_&lt;%</h3>");
   }

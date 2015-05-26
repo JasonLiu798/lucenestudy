@@ -17,6 +17,14 @@ public class GetController implements Controller {
 	
 	private BasicDataSource basicDataSource;
 	
+	public BasicDataSource getBasicDataSource() {
+        return basicDataSource;
+    }
+
+    public void setBasicDataSource(BasicDataSource basicDataSource) {
+        this.basicDataSource = basicDataSource;
+    }
+    
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse arg1) throws Exception {

@@ -11,8 +11,12 @@
 	<context:component-scan base-package="com.jason.controller" />
 
   
-	<bean name="/search.do" class="com.jason.controller.SearchController"></bean>
-	<bean name="/get.do" class="com.jason.controller.GetController"></bean>
+	<bean name="/search.do" class="com.jason.controller.SearchController">
+		<property name="basicDataSource" ref="dataSourceDBCP"/>
+	</bean>
+	<bean name="/get.do" class="com.jason.controller.GetController">
+		<property name="basicDataSource" ref="dataSourceDBCP"/>
+	</bean>
 	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

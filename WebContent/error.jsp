@@ -6,7 +6,7 @@
 <%@ include file="head.jsp"%>
 
 <%
-String error =(String) request.getAttribute("error");
+String error = request.getAttribute("error")==null?"未知错误!":(String) request.getAttribute("error") ;
 %>
 	
 	
