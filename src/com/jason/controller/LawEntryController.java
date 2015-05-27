@@ -17,15 +17,19 @@ import com.jason.dto.Chapter;
 import com.jason.dto.LawEntry;
 
 public class LawEntryController {
-//	private DBCPPoolManager dm;
-	private BasicDataSource dm;
 	
+	private BasicDataSource basicDataSource;
 	
-	public LawEntryController(BasicDataSource dm){
-		this.dm = dm;
+	public BasicDataSource getBasicDataSource() {
+		return basicDataSource;
 	}
-	
-	
+
+
+	public void setBasicDataSource(BasicDataSource basicDataSource) {
+		this.basicDataSource = basicDataSource;
+	}
+
+
 	public LawEntryController(){
 	}
 	
@@ -36,7 +40,7 @@ public class LawEntryController {
 		PreparedStatement stmt = null;
 		ResultSet rs =null;
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement(" select  c.law,le.cid,c.cname,le.eid,le.ename,le.content "
 					+ " from lawentry le left join chapter c on c.cid = le.cid where eid = ? limit 1 ");
 			stmt.setInt(1, eid);
@@ -86,7 +90,7 @@ public class LawEntryController {
 		List<LawEntry> lws = new LinkedList<LawEntry>();
 		
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement(" select  c.law,le.cid,c.cname,le.eid,le.ename,le.content "
 					+ " from lawentry le left join chapter c on c.cid = le.cid where le.cid = ? ");
 			stmt.setInt(1, cid);
@@ -137,7 +141,7 @@ public class LawEntryController {
 		List<LawEntry> lws = new LinkedList<LawEntry>();
 		
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement(" select  c.law,le.cid,c.cname,le.eid,le.ename,le.content from lawentry le left join chapter c on c.cid = le.cid ");
 			rs = stmt.executeQuery();
 			while( rs.next()){
@@ -196,7 +200,7 @@ public class LawEntryController {
 		PreparedStatement stmt = null;
 		boolean res = false;
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement("INSERT INTO lawentry ( eid, cid,ename,content) "
 							+ " VALUES(?, ?, ?, ?)");
 			stmt.setInt(1, lw.getEid() );
@@ -257,12 +261,6 @@ public class LawEntryController {
 			System.out.println(le);
 		}
 		
-//		List<LawEntry> lws = lc.getLawEntrys();
-//		Iterator<LawEntry> it = lws.iterator();
-//		while (it.hasNext()) {
-//			LawEntry le = it.next();
-//			System.out.println(le);
-//		}
 	}
 
 }

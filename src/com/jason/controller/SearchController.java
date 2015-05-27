@@ -2,13 +2,13 @@ package com.jason.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.jason.dao.UserDAO;
 import com.jason.database.DBCPPoolManager;
 import com.jason.dto.Chapter;
 import com.jason.dto.Keyword;
@@ -22,7 +22,25 @@ import com.jason.controller.LawController;
 public class SearchController implements Controller {
 	
 	private BasicDataSource basicDataSource;
+	private KeywordController wordCtrl;
+	private UserDAO userCtrl;
 	
+	public UserDAO getUserCtrl() {
+		return userCtrl;
+	}
+
+	public void setUserCtrl(UserDAO userCtrl) {
+		this.userCtrl = userCtrl;
+	}
+
+	public KeywordController getWordCtrl() {
+		return wordCtrl;
+	}
+
+	public void setWordCtrl(KeywordController wordCtrl) {
+		this.wordCtrl = wordCtrl;
+	}
+
 	public BasicDataSource getBasicDataSource() {
         return basicDataSource;
     }
@@ -47,18 +65,17 @@ public class SearchController implements Controller {
 			if(text.length()==0){
 				err = "请输入搜索内容";
 			}else{
-				KeywordController kc = new KeywordController(basicDataSource);
 				Keyword kw = new Keyword();
 				kw.setKeyword(text);
-				int kid = kc.getNewId();
+				int kid = wordCtrl.getNewId();
 				kw.setKid(  kid );
-				kc.saveOne(kw);
+				wordCtrl.saveOne(kw);
 				
-				UserController uc = new UserController(basicDataSource);
+//				UserController uc = new UserController(basicDataSource);
 				User user = new User();
 				user.setIp( ip);
-				user.setKid(kid  );
-				uc.saveOne(user);
+//				user.setKid(kid  );
+				userCtrl.saveOne(user);
 				
 				LawSearcher sr = new LawSearcher();
 				

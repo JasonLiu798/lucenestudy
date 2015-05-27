@@ -19,15 +19,23 @@ import com.jason.dto.LawEntry;
 
 public class KeywordController {
 
-	private BasicDataSource dm;
+	private BasicDataSource basicDataSource;
 	
-	private KeywordController() {
+	public BasicDataSource getBasicDataSource() {
+		return basicDataSource;
+	}
+
+	public void setBasicDataSource(BasicDataSource basicDataSource) {
+		this.basicDataSource = basicDataSource;
+	}
+
+	public KeywordController() {
 	}
 	
-	
-	public KeywordController( BasicDataSource dm) {
-			this.dm = dm;
-	}
+//	
+//	public KeywordController( BasicDataSource dm) {
+//			this.basicDataSource = dm;
+//	}
 	
 	
 	public synchronized int getNewId(){
@@ -36,7 +44,7 @@ public class KeywordController {
 		ResultSet rs =null;
 		int res = -1;
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement(" select  max(kid) kid from keyword ");
 			rs = stmt.executeQuery();
 			while( rs.next()){
@@ -76,7 +84,7 @@ public class KeywordController {
 		PreparedStatement stmt = null;
 		boolean res = false;
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement(" INSERT INTO keyword ( kid,keyword)  VALUES(?,?) ");
 			stmt.setInt(1, kw.getKid() );
 			stmt.setString(2, kw.getKeyword());

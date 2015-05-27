@@ -21,25 +21,41 @@ import com.jason.dto.Chapter;
 import com.jason.dto.LawEntry;
 
 public class ChapterController {
-	private BasicDataSource dm;
-//	private DBUtil dm;
-//	private DBCPPoolManager dm;
-
-	private LawEntryController lc;
 	
-	private ChapterController() {
+	private BasicDataSource basicDataSource;
+	private LawEntryController lawentryController;
+	
+	public BasicDataSource getBasicDataSource() {
+		return basicDataSource;
+	}
+
+	public void setBasicDataSource(BasicDataSource basicDataSource) {
+		this.basicDataSource = basicDataSource;
+	}
+
+	public LawEntryController getLawentryController() {
+		return lawentryController;
+	}
+
+	public void setLawentryController(LawEntryController lawentryController) {
+		this.lawentryController = lawentryController;
+	}
+
+	public ChapterController() {
+		
 	}
 	
+	/*
 	public ChapterController( BasicDataSource dm ) {
 		if (dm == null) {
 			dm = new BasicDataSource();
 //			dm.startService();
 		}else{
-			this.dm = dm;
+			this.basicDataSource = dm;
 		}
 		
 		if(lc == null){
-			lc = new LawEntryController(dm);
+			lc = new LawEntryController();
 		}
 	}
 	
@@ -48,15 +64,15 @@ public class ChapterController {
 //			dm = new DBUtil();
 ////			dm.startService();
 //		}else{
-		this.dm = dm;
+		this.basicDataSource = dm;
 //		}
 		
 		if(lc == null){
-			lc = new LawEntryController(dm);
+			lc = new LawEntryController();
 		}else{
 			this.lc=lc;
 		}
-	}
+	}*/
 	
 	public Chapter getChapterById(int cid){
 		Chapter ch = new Chapter();
@@ -66,7 +82,7 @@ public class ChapterController {
 		ResultSet rs =null;
 		
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement(" select  c.law,c.cid,c.cname from chapter c where cid = ? limit 1 ");
 			stmt.setInt(1, cid);
 			rs = stmt.executeQuery();
@@ -101,7 +117,7 @@ public class ChapterController {
 			}
 		}
 		
-		List<LawEntry> lws = lc.getLawEntrysByCid( cid );
+		List<LawEntry> lws = lawentryController.getLawEntrysByCid( cid );
 //		System.out.println(lws.size() );
 		ch.setLawEntrys(lws);
 
@@ -117,7 +133,7 @@ public class ChapterController {
 		
 		
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn.prepareStatement("select  c.cid from chapter c where c.law = ? order by c.cid");
 			stmt.setInt(1, lid);
 			rs = stmt.executeQuery();
@@ -168,7 +184,7 @@ public class ChapterController {
 		PreparedStatement stmt = null;
 		boolean res = false;
 		try {
-			conn = dm.getConnection();
+			conn = basicDataSource.getConnection();
 			stmt = conn
 					.prepareStatement("INSERT INTO chapter ( law, cid,  cname)  VALUES(?, ?,?)");
 			stmt.setInt(1, cp.getLid());
@@ -195,7 +211,7 @@ public class ChapterController {
 		}
 		
 		List<LawEntry> lws = cp.getLawEntrys();
-		lc.saveAll( lws);
+		lawentryController.saveAll( lws);
 		return res;
 	}
 	

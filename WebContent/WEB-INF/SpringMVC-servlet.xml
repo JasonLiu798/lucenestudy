@@ -13,9 +13,14 @@
   
 	<bean name="/search.do" class="com.jason.controller.SearchController">
 		<property name="basicDataSource" ref="dataSourceDBCP"/>
+		<property name="wordCtrl" ref="keywordCtrl"/>
+		<property name="userCtrl" ref="userCtrl"/>
 	</bean>
+	
 	<bean name="/get.do" class="com.jason.controller.GetController">
 		<property name="basicDataSource" ref="dataSourceDBCP"/>
+		<property name="lawCtrl" ref="lawCtrl"/>
+		<property name="chapterCtrl" ref="chapterCtrl"/>
 	</bean>
 	
 	<bean id="viewResolver"
