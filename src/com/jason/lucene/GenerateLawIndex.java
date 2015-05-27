@@ -61,8 +61,6 @@ import com.zb.mmseg.analysis.MMSegAnalyzer;
 
 public class GenerateLawIndex {
 	
-	
-	
 	private static final String regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>"; // 定义script的正则表达式  
     private static final String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>"; // 定义style的正则表达式  
     private static final String regEx_html = "<[^>]+>"; // 定义HTML标签的正则表达式  
@@ -229,14 +227,11 @@ public class GenerateLawIndex {
 	/**
 	 * 生成所有索引
 	 */
-
-	public boolean GenerateAllIndex(String path, BasicDataSource dm){
+	public boolean GenerateAllIndex(String path, LawEntryController lc){
 		boolean res = false;
 		try {
 			Date start = new Date();
 			IndexWriter iw = getIndexWriter(path,true);
-
-			LawEntryController lc = new LawEntryController(dm );
 
 			List<LawEntry> lws = lc.getLawEntrys();
 			if(lws!=null){
@@ -255,13 +250,6 @@ public class GenerateLawIndex {
 		return res;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Test
 	 * @param args
@@ -272,7 +260,7 @@ public class GenerateLawIndex {
 		ApplicationContext factory = new ClassPathXmlApplicationContext(path);
 		
 		GenerateLawIndex gi = new GenerateLawIndex( );
-		gi.GenerateAllIndex(Constant.IDX_DIR , (BasicDataSource)factory.getBean("dataSourceDBCP"));
+		gi.GenerateAllIndex(Constant.IDX_DIR , (LawEntryController)factory.getBean("lawentryCtrl"));
 
 		
 		
