@@ -8,6 +8,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.jason.dao.LawDAO;
 import com.jason.dao.UserDAO;
 import com.jason.database.DBCPPoolManager;
 import com.jason.dto.Chapter;
@@ -17,7 +18,6 @@ import com.jason.dto.LawEntry;
 import com.jason.dto.LawEntrysRes;
 import com.jason.dto.User;
 import com.jason.lucene.LawSearcher;
-import com.jason.controller.LawController;
 
 public class SearchController implements Controller {
 	

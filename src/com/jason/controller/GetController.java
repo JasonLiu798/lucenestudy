@@ -2,24 +2,26 @@ package com.jason.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+
+import com.jason.dao.LawDAO;
 import com.jason.dto.Chapter;
 import com.jason.dto.Law;
-import com.jason.controller.LawController;
 
 public class GetController implements Controller {
 	
 	private BasicDataSource basicDataSource;
-	private LawController lawCtrl;
+	private LawDAO lawCtrl;
 	private ChapterController chapterCtrl;
 	
-	public LawController getLawCtrl() {
+	public LawDAO getLawCtrl() {
 		return lawCtrl;
 	}
 
-	public void setLawCtrl(LawController lawCtrl) {
+	public void setLawCtrl(LawDAO lawCtrl) {
 		this.lawCtrl = lawCtrl;
 	}
 

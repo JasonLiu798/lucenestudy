@@ -1,32 +1,13 @@
 package com.jason.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
-
-import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Property;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-//import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
-
-
-
-
-
-import com.jason.controller.LawEntryController;
-import com.jason.database.DBCPPoolManager;
-import com.jason.dto.Keyword;
-import com.jason.dto.LawEntry;
 import com.jason.dto.User;
-import com.jason.lucene.GenerateLawIndex;
-import com.jason.tool.Constant;
 
 public class UserDAO  {//extends HibernateDaoSupport{
 	private SessionFactory sessionFactory;
@@ -74,9 +55,15 @@ public class UserDAO  {//extends HibernateDaoSupport{
 		Criteria crit = session.createCriteria(User.class).setProjection(
 				Property.forName("uid").max().as("maxid"));
 		List res = crit.list();
+		String newStr = "";
+		if(res.get(0)!=null){
+			newStr = res.get(0)+"";
+		}else{
+			newStr = "0";
+		}
 //		crit.setMaxResults(50);
 //		List<User> res = crit.list();
-		return Integer.parseInt( res.get(0)+"" )+1;
+		return Integer.parseInt( newStr )+1;
 	}
 	
 	
@@ -172,15 +159,17 @@ public class UserDAO  {//extends HibernateDaoSupport{
 		UserDAO ud = (UserDAO)factory.getBean("userDao");
 		System.out.println( ud.getNewId());
 		
+		User user = new User();
+		user.setIp("afdasdfsafs");
+		user.setUid(ud.getNewId());
+		ud.saveOne(user);
+		
 		
 //		for(int i=0;i<res.size();i++){
 //			System.out.println(res.get(i));
 //		}
 		
-//		User user = new User();
-//		user.setIp("afdasdfsafs");
-//		user.setUid(1000);
-//		ud.saveOne(user);
+		
 		
 //		ud.flush();
 		
