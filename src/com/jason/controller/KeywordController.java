@@ -1,6 +1,7 @@
 package com.jason.controller;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,24 +18,17 @@ import com.jason.dto.Keyword;
 import com.jason.dto.LawEntry;
 
 public class KeywordController {
+
 	private BasicDataSource dm;
 	
 	private KeywordController() {
-//		if (dm == null) {
-//			dm = new DBUtil();
-////			dm.startService();
-//		}
 	}
 	
 	
 	public KeywordController( BasicDataSource dm) {
-//		if (dm == null) {
-//			dm = new BasicDataSource();
-////			dm.startService();
-//		}else{
 			this.dm = dm;
-//		}
 	}
+	
 	
 	public synchronized int getNewId(){
 		Connection conn = null;

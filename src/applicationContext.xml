@@ -3,6 +3,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://10.185.3.239/schema/context/spring-beans-2.0.xsd">
 	
+	
+<!-- 	<bean id="dataSourceDBCP" class="org.apache.commons.dbcp.BasicDataSource">
+    </bean> -->
+          
     <bean id="dataSourceDBCP"
           class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>

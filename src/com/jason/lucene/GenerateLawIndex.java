@@ -3,6 +3,7 @@ package com.jason.lucene;
 
 
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -228,13 +229,15 @@ public class GenerateLawIndex {
 	/**
 	 * 生成所有索引
 	 */
+
 	public boolean GenerateAllIndex(String path, BasicDataSource dm){
 		boolean res = false;
 		try {
 			Date start = new Date();
 			IndexWriter iw = getIndexWriter(path,true);
-			
+
 			LawEntryController lc = new LawEntryController(dm );
+
 			List<LawEntry> lws = lc.getLawEntrys();
 			if(lws!=null){
 				addDocs(iw,lws);
@@ -270,5 +273,34 @@ public class GenerateLawIndex {
 		
 		GenerateLawIndex gi = new GenerateLawIndex( );
 		gi.GenerateAllIndex(Constant.IDX_DIR , (BasicDataSource)factory.getBean("dataSourceDBCP"));
+
+		
+		
+//		List l = gi.getAllContentFromDatabase();
+//		Printer.printList(l);
+		
+//		
+		
+//		PostVO p = gi.getPostVO(32);
+//		 
+//		List<String> lists = gi.getWords(p.getContent() , new PaodingAnalyzer() );  
+//		for (String s : lists) {
+//		    System.out.println(s);  
+//		}
+//		
+		
+//		
+		
+		//String str = gi.getContentFromDatabase(33);
+//		HashMap hm;
+//		try {
+//			hm = gi.getAllContentFromDatabase();
+//			TestPrint.printHashMap(hm);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		System.out.println("STR:"+str);
 	}
 }

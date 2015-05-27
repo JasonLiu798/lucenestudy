@@ -1,14 +1,13 @@
 package com.jason.controller;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.apache.commons.dbcp.BasicDataSource;
-
 import com.jason.database.DBCPPoolManager;
 import com.jason.dto.Keyword;
 import com.jason.dto.LawEntry;
@@ -20,20 +19,16 @@ public class UserController {
 	
 	
 	private UserController(){
-//		if (dm == null) {
-//			dm = new DBCPPoolManager();
-//			dm.startService();
-//		}
 	}
 	
 	public UserController(BasicDataSource dm){
-//		if (dm != null) {
 		this.dm = dm;
-//		}else{
-//			dm = new DBCPPoolManager();
-//			dm.startService();
-//		}
 	}
+
+//	
+//	public UserController(){
+//	}
+//	
 	
 	public boolean saveOne(User user){
 		Connection conn = null;

@@ -7,14 +7,11 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.document.Field.Store;
-
-import com.jason.database.DBCPPoolManager;
 import com.jason.database.DBUtil;
 import com.jason.dto.Chapter;
 import com.jason.dto.LawEntry;
@@ -24,16 +21,14 @@ public class LawEntryController {
 	private BasicDataSource dm;
 	
 	
-//	private LawEntryController(){
-//		if (dm == null) {
-//			dm = new DBUtil();
-////			dm.startService();
-//		}
-//	}
-	
 	public LawEntryController(BasicDataSource dm){
 		this.dm = dm;
 	}
+	
+	
+	public LawEntryController(){
+	}
+	
 	
 	public LawEntry getLawEntryById(int eid){
 		LawEntry lw = new LawEntry();
@@ -105,7 +100,6 @@ public class LawEntryController {
 				lw.setEname( rs.getString("ename") );
 				lw.setContent( rs.getString("content") );
 				lws.add(lw);
-//				System.out.println(lw);
 			}
 		} catch (SQLException e) {
 			
@@ -251,16 +245,17 @@ public class LawEntryController {
 	
 	
 	public static void main(String[] args) {
-//		LawEntryController lc = new LawEntryController();
-//		LawEntry lw = lc.getLawEntryById(2);
-//		System.out.println(lw);
-//		
-//		List<LawEntry> lws = lc.getLawEntrysByCid(2);
-//		Iterator<LawEntry> it = lws.iterator();
-//		while (it.hasNext()) {
-//			LawEntry le = it.next();
-//			System.out.println(le);
-//		}
+
+		LawEntryController lc = new LawEntryController();
+		LawEntry lw = lc.getLawEntryById(2);
+		System.out.println(lw);
+		
+		List<LawEntry> lws = lc.getLawEntrysByCid(2);
+		Iterator<LawEntry> it = lws.iterator();
+		while (it.hasNext()) {
+			LawEntry le = it.next();
+			System.out.println(le);
+		}
 		
 //		List<LawEntry> lws = lc.getLawEntrys();
 //		Iterator<LawEntry> it = lws.iterator();

@@ -1,6 +1,7 @@
 package com.jason.controller;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,10 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 import com.jason.database.DBCPPoolManager;
 import com.jason.database.DBUtil;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+
 import com.jason.dto.Chapter;
 import com.jason.dto.LawEntry;
 
@@ -19,17 +24,10 @@ public class ChapterController {
 	private BasicDataSource dm;
 //	private DBUtil dm;
 //	private DBCPPoolManager dm;
+
 	private LawEntryController lc;
 	
-	public ChapterController() {
-		if (dm == null) {
-			dm = new BasicDataSource();
-//			dm.startService();
-		}
-		
-		if(lc == null){
-			lc = new LawEntryController(dm);
-		}
+	private ChapterController() {
 	}
 	
 	public ChapterController( BasicDataSource dm ) {
@@ -106,10 +104,11 @@ public class ChapterController {
 		List<LawEntry> lws = lc.getLawEntrysByCid( cid );
 //		System.out.println(lws.size() );
 		ch.setLawEntrys(lws);
+
 		return ch;
 	}
 	
-	
+
 	public List<Chapter> getChaptersByLid(int lid){
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -161,8 +160,7 @@ public class ChapterController {
 	}
 		
 		
-	
-	
+
 	
 	
 	public boolean saveOne(Chapter cp){
@@ -217,6 +215,7 @@ public class ChapterController {
 	}
 
 	public static void main(String[] args) {
+
 		ChapterController cc = new ChapterController();
 //		Chapter c = cc.getChapterById(2);
 //		System.out.println(c);

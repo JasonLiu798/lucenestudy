@@ -360,6 +360,7 @@ public class LawSearcher {
 		
 		LawSearcher sr = new LawSearcher();
 		String searchStr = "和国家标准";
+
 		// List<PostVO> l = sr.search(searchStr, 1,10,new PaodingAnalyzer());
 		LawEntrysRes lwres = sr.searchPost( searchStr, 1, 10);
 		System.out.println( lwres.getLelist() );

@@ -1,6 +1,8 @@
 package com.jason.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -93,4 +95,10 @@ public class SearchController implements Controller {
 	    return ip;  
 	}  
 	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

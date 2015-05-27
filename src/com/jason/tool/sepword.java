@@ -27,9 +27,11 @@ public class sepword {
 	public static void main(String[] args) {
 		String hbf = "D:\\up\\file\\hbf.txt";
 		
+		
 		BufferedReader reader = null;
 		StringBuffer sb = new StringBuffer();
 		try {
+			
 			InputStreamReader isr=new InputStreamReader(new FileInputStream(hbf),"UTF-8");
 			
 			reader = new BufferedReader( isr );
@@ -73,7 +75,8 @@ public class sepword {
 					System.out.println("Chapter:"+ cname);
 					cp = new Chapter();
 					cp.setCid(cid);
-					cp.setCname("");
+					
+					cp.setCname( "");
 					List<LawEntry> les = new LinkedList<LawEntry>();
 					cp.setLawEntrys(les);
 					cps.add(cp);
@@ -105,13 +108,27 @@ public class sepword {
 					System.out.println("ot"+i+":"+line);
 				}
 			}
-			
+
 			Iterator it = (Iterator) cps.iterator();
 			while(it.hasNext()){
 				Chapter tmpCp = (Chapter) it.next();
 				System.out.println(tmpCp);
 			}
+
 			
+//			while( ){
+//				
+//			}
+//			
+//			fis = new FileInputStream(file );
+//			ByteArrayOutputStream bytestream = new ByteArrayOutputStream();    
+//			int ch = fis.read();   
+//			while (ch != -1) {     
+//			    bytestream.write(ch);
+//			}
+//			byte imgdata[] = bytestream.toByteArray();
+//			System.out.println(imgdata);
+//			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

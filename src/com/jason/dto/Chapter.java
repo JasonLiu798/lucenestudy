@@ -57,7 +57,8 @@ public class Chapter {
 //			str.append(" null");
 		}
 		return res;//str.toString();
+	
+
 	}
-//	Chapter {cid=2, cname=第二章生产经营单位的安全生产保障}LawEntry (lid=1, eid=17, e
 	
 }

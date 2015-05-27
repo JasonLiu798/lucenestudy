@@ -37,11 +37,12 @@ public class SepAndInsert {
 			Chapter cp = null;
 			Chapter preCp = null;
 			LawEntry le = null;
+
 			
 			int lid = 2;
 			int cid = 11;
 			int eid = 101;
-			
+
 			List<Chapter> cps = new LinkedList();
 			
 			while ((line = reader.readLine()) != null) {
@@ -54,17 +55,18 @@ public class SepAndInsert {
 				Pattern ptE = Pattern.compile(regEntry);
 				Matcher mcE = ptE.matcher(line);
 				boolean isEntry = mcE.matches();
-				
+
 				if (isChapter) {
 					// System.out.println("Chapter"+i+":"+ line );
 					String[] seps = line.split("章");
 					String cname = seps[1];
-					
+
 					System.out.println("Chapter:" + cname);
 					cp = new Chapter();
 					cp.setCid(cid);
 					cp.setCname(line );
 					cp.setLid(lid);
+
 					List<LawEntry> les = new LinkedList<LawEntry>();
 					cp.setLawEntrys(les);
 					cps.add(cp);
@@ -73,7 +75,9 @@ public class SepAndInsert {
 						preCp = cp;
 					}
 					cid++;
+
 					isChapter = false;
+
 				} else if (isEntry) {
 					le = new LawEntry();
 					String[] seps = line.split("条");
@@ -91,6 +95,7 @@ public class SepAndInsert {
 					le.setEname(ename );
 					le.setContent(entryContent);
 					cp.getLawEntrys().add(le);
+					
 					System.out.println("cid "+le.getCid() +",eid "+le.getEid() +":"+ entryContent);
 					eid++;
 					// System.out.println("Entry"+i+":"+ line );
@@ -98,11 +103,15 @@ public class SepAndInsert {
 				} else {
 					le.setContent( le.getContent()+ line );
 					System.out.println("OT" + i + ",cid "+le.getCid()+",eid "+le.getEid() +":" + le.getContent() );
+
+//					System.out.println("Entry:" + entryContent);
+					eid++;
+					// System.out.println("Entry"+i+":"+ line );
 				}
 			}
 			
-			ChapterController cc = new ChapterController( );
-			cc.saveAll(cps);
+//			ChapterController cc = new ChapterController( );
+//			cc.saveAll(cps);
 			
 			
 //			Iterator it = (Iterator) cps.iterator();
