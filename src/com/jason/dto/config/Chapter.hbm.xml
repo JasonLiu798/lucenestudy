@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'  
+        'http://10.185.3.239/schema/hibernate-mapping-3.0.dtd'>  
+<hibernate-mapping>  
+    <class name="com.jason.dto.Chapter" table="chapter">  
+        <id name="cid">  
+            <generator class="assigned"/>
+        </id>
+        
+        <property name="cname"></property>
+        
+        <set name="lawEntrys" inverse="true" lazy="false">
+        	<key column="cid" ></key>
+            <one-to-many class="com.jason.dto.LawEntry"/>
+        </set>
+        <many-to-one name="law" class="com.jason.dto.Law" column="lid"></many-to-one>
+    </class>
+</hibernate-mapping>

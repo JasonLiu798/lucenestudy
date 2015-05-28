@@ -21,7 +21,7 @@ Law law = (Law)request.getAttribute("law");
   <h1><% out.print( law.getLname() ); %></h1>
   
 <% 
-  	Iterator<Chapter> itc = law.getLcs().iterator();
+  	Iterator<Chapter> itc = law.getChapters().iterator();
   	while(itc.hasNext() ){
   		Chapter ch = itc.next();
 %>

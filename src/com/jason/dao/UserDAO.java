@@ -1,13 +1,21 @@
 package com.jason.dao;
 
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.jason.dto.Keyword;
+import com.jason.dto.KeywordHistory;
 import com.jason.dto.User;
+import com.jason.dto.UserSearchHistory;
 
 public class UserDAO  {//extends HibernateDaoSupport{
 	private SessionFactory sessionFactory;
@@ -15,24 +23,10 @@ public class UserDAO  {//extends HibernateDaoSupport{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		          this.sessionFactory = sessionFactory;
 	}
-//	private BasicDataSource basicDataSource;
 	
-	
-//	public BasicDataSource getBasicDataSource() {
-//		return basicDataSource;
-//	}
-
-//	public void setBasicDataSource(BasicDataSource basicDataSource) {
-//		this.basicDataSource = basicDataSource;
-//	}
-
 	public UserDAO(){
 		
 	}
-	
-//	public UserController(BasicDataSource dm){
-//		this.basicDataSource = dm;
-//	}
 	
 	
 	public void saveOne(User instance) {
@@ -43,17 +37,52 @@ public class UserDAO  {//extends HibernateDaoSupport{
 		session.close();
 	}
 	
-	public List<User> getAll(){
+	public void saveSearchHistory(User user,List<Keyword> ks){
+		Iterator<Keyword> iter = ks.iterator();
+		while( iter.hasNext() ){
+			Keyword kw = iter.next();
+			UserSearchHistory ush = new UserSearchHistory();
+			ush.setKid( kw.getKid());
+			ush.setSearchTime( new Date() );
+			ush.setUid( user.getUid() );
+			saveSearchHistory(ush);
+		}
+	}
+	
+	public void saveSearchHistory(UserSearchHistory instance) {
 		Session session = sessionFactory.openSession();
-		Criteria crit = session.createCriteria(User.class);
-		List<User> res = crit.list();
+		session.save( instance );
+		session.flush();  
+		session.clear();  
+		session.close();
+	}
+	
+	public User saveNewUser(String ip){
+		User oldUser = isExistIp(ip);
+		User newUser = new User();
+		if(oldUser==null){
+			newUser.setIp(ip);
+			newUser.setUid( getNewId() );
+			saveOne(newUser);
+		}
+		return newUser;
+	}
+	
+	public User isExistIp(String ip){
+		User res = null;
+		Session session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(User.class).add( Restrictions.eq("ip", ip) );
+		if( crit.list().size()>0 ){
+			res = (User) crit.list().get(0);
+		}
+		session.close();
 		return res;
 	}
 	
 	public synchronized int getNewId(){
 		Session session = sessionFactory.openSession();
 		Criteria crit = session.createCriteria(User.class).setProjection(
-				Property.forName("uid").max().as("maxid"));
+				Property.forName( User.getPk() ).max().as("maxid"));
 		List res = crit.list();
 		String newStr = "";
 		if(res.get(0)!=null){
@@ -61,9 +90,15 @@ public class UserDAO  {//extends HibernateDaoSupport{
 		}else{
 			newStr = "0";
 		}
-//		crit.setMaxResults(50);
-//		List<User> res = crit.list();
 		return Integer.parseInt( newStr )+1;
+	}
+	
+	
+	public List<User> getAll(){
+		Session session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(User.class);
+		List<User> res = crit.list();
+		return res;
 	}
 	
 	
@@ -160,10 +195,16 @@ public class UserDAO  {//extends HibernateDaoSupport{
 		System.out.println( ud.getNewId());
 		
 		User user = new User();
-		user.setIp("afdasdfsafs");
+		user.setIp("10.111111");
 		user.setUid(ud.getNewId());
 		ud.saveOne(user);
 		
+		KeywordDAO kc  = (KeywordDAO)factory.getBean("keywordDao");
+		
+		List<Keyword> kws = kc.getSepwordsAndSave("安全生产");
+		
+		
+		ud.saveSearchHistory(user,  kws );
 		
 //		for(int i=0;i<res.size();i++){
 //			System.out.println(res.get(i));

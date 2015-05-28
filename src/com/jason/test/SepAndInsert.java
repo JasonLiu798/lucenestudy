@@ -3,14 +3,17 @@ package com.jason.test;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jason.controller.ChapterController;
+import com.jason.dao.ChapterDAO;
 import com.jason.dto.Chapter;
+import com.jason.dto.Law;
 import com.jason.dto.LawEntry;
 
 public class SepAndInsert {
@@ -65,10 +68,13 @@ public class SepAndInsert {
 					cp = new Chapter();
 					cp.setCid(cid);
 					cp.setCname(line );
-					cp.setLid(lid);
+					Law law = new Law();
+					law.setLid(lid);
+					cp.setLaw(law);
 
-					List<LawEntry> les = new LinkedList<LawEntry>();
+					Set<LawEntry> les = new HashSet<LawEntry>();
 					cp.setLawEntrys(les);
+//					cp.setLawEntrys(les);
 					cps.add(cp);
 
 					if (cid > 1) {
@@ -90,19 +96,22 @@ public class SepAndInsert {
 							entryContent += seps[k];
 						}
 					}
-					le.setCid(cp.getCid());
+					Chapter ch = new Chapter();
+					ch.setCid( cp.getCid() );
+//					ch.set
 					le.setEid(eid);
 					le.setEname(ename );
 					le.setContent(entryContent);
+					le.setChapter(ch );
 					cp.getLawEntrys().add(le);
 					
-					System.out.println("cid "+le.getCid() +",eid "+le.getEid() +":"+ entryContent);
+					System.out.println("cid "+ le.getChapter().getCid() +",eid "+le.getEid() +":"+ entryContent);
 					eid++;
 					// System.out.println("Entry"+i+":"+ line );
 					isEntry = false;
 				} else {
 					le.setContent( le.getContent()+ line );
-					System.out.println("OT" + i + ",cid "+le.getCid()+",eid "+le.getEid() +":" + le.getContent() );
+					System.out.println("OT" + i + ",cid "+le.getChapter().getCid()+",eid "+le.getEid() +":" + le.getContent() );
 
 //					System.out.println("Entry:" + entryContent);
 					eid++;

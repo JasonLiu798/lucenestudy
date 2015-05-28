@@ -7,40 +7,37 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.jason.dao.ChapterDAO;
 import com.jason.dao.LawDAO;
 import com.jason.dto.Chapter;
 import com.jason.dto.Law;
 
 public class GetController implements Controller {
 	
-	private BasicDataSource basicDataSource;
-	private LawDAO lawCtrl;
-	private ChapterController chapterCtrl;
+	private LawDAO lawDao;
+	private ChapterDAO chapterDao;
 	
-	public LawDAO getLawCtrl() {
-		return lawCtrl;
-	}
-
-	public void setLawCtrl(LawDAO lawCtrl) {
-		this.lawCtrl = lawCtrl;
-	}
-
-	public ChapterController getChapterCtrl() {
-		return chapterCtrl;
-	}
-
-	public void setChapterCtrl(ChapterController chapterCtrl) {
-		this.chapterCtrl = chapterCtrl;
-	}
-
-	public BasicDataSource getBasicDataSource() {
-        return basicDataSource;
-    }
-
-    public void setBasicDataSource(BasicDataSource basicDataSource) {
-        this.basicDataSource = basicDataSource;
-    }
     
+	public LawDAO getLawDao() {
+		return lawDao;
+	}
+
+
+	public void setLawDao(LawDAO lawDao) {
+		this.lawDao = lawDao;
+	}
+
+
+	public ChapterDAO getChapterDao() {
+		return chapterDao;
+	}
+
+
+	public void setChapterDao(ChapterDAO chapterDao) {
+		this.chapterDao = chapterDao;
+	}
+
+
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse arg1) throws Exception {
@@ -61,12 +58,12 @@ public class GetController implements Controller {
 		if(type!=null){
 			if( type.equals("law") ){
 				
-				Law law = lawCtrl.getLawById(id);
+				Law law = lawDao.getLawById(id);
 				
 				mw= new ModelAndView("/law", "law", law);
 			}else if( type.equals("chapter")){
 //				ChapterController cc = new ChapterController(basicDataSource);
-				Chapter cp = chapterCtrl.getChapterById(id);
+				Chapter cp = chapterDao.getChapterById(id);
 				mw= new ModelAndView("/chapter", "cp", cp);
 			}else{
 				err = "未知类型";

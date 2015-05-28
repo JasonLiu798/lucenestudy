@@ -3,7 +3,6 @@ package com.jason.lucene;
 
 
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -54,7 +53,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.jason.controller.LawEntryController;
+import com.jason.dao.LawEntryDAO;
 import com.jason.dto.LawEntry;
 import com.jason.tool.Constant;
 import com.zb.mmseg.analysis.MMSegAnalyzer;
@@ -226,8 +225,8 @@ public class GenerateLawIndex {
 	
 	/**
 	 * 生成所有索引
-	 */
-	public boolean GenerateAllIndex(String path, LawEntryController lc){
+	 *
+	public boolean GenerateAllIndex(String path, LawEntryDAO lc){
 		boolean res = false;
 		try {
 			Date start = new Date();
@@ -249,6 +248,7 @@ public class GenerateLawIndex {
 		}
 		return res;
 	}
+	*/
 	
 	/**
 	 * Test
@@ -260,7 +260,7 @@ public class GenerateLawIndex {
 		ApplicationContext factory = new ClassPathXmlApplicationContext(path);
 		
 		GenerateLawIndex gi = new GenerateLawIndex( );
-		gi.GenerateAllIndex(Constant.IDX_DIR , (LawEntryController)factory.getBean("lawentryCtrl"));
+//		gi.GenerateAllIndex(Constant.IDX_DIR , (LawEntryDAO)factory.getBean("lawentryCtrl"));
 
 		
 		

@@ -1,6 +1,8 @@
 package com.jason.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,11 +10,13 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.jason.dao.KeywordDAO;
 import com.jason.dao.LawDAO;
 import com.jason.dao.UserDAO;
 import com.jason.database.DBCPPoolManager;
 import com.jason.dto.Chapter;
 import com.jason.dto.Keyword;
+import com.jason.dto.KeywordHistory;
 import com.jason.dto.Law;
 import com.jason.dto.LawEntry;
 import com.jason.dto.LawEntrysRes;
@@ -21,34 +25,31 @@ import com.jason.lucene.LawSearcher;
 
 public class SearchController implements Controller {
 	
-	private BasicDataSource basicDataSource;
-	private KeywordController wordCtrl;
-	private UserDAO userCtrl;
+	private KeywordDAO wordDao;
+	private UserDAO userDao;
 	
-	public UserDAO getUserCtrl() {
-		return userCtrl;
+	
+	
+	public KeywordDAO getWordDao() {
+		return wordDao;
 	}
 
-	public void setUserCtrl(UserDAO userCtrl) {
-		this.userCtrl = userCtrl;
+
+	public void setWordDao(KeywordDAO wordDao) {
+		this.wordDao = wordDao;
 	}
 
-	public KeywordController getWordCtrl() {
-		return wordCtrl;
+
+	public UserDAO getUserDao() {
+		return userDao;
 	}
 
-	public void setWordCtrl(KeywordController wordCtrl) {
-		this.wordCtrl = wordCtrl;
+
+	public void setUserDao(UserDAO userDao) {
+		this.userDao = userDao;
 	}
 
-	public BasicDataSource getBasicDataSource() {
-        return basicDataSource;
-    }
 
-    public void setBasicDataSource(BasicDataSource basicDataSource) {
-        this.basicDataSource = basicDataSource;
-    }
-    
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse arg1) throws Exception {
@@ -64,22 +65,17 @@ public class SearchController implements Controller {
 		}else{
 			if(text.length()==0){
 				err = "请输入搜索内容";
+			}else if(text.length()>1024){
+				err = "查询内容过长";
 			}else{
-				Keyword kw = new Keyword();
-				kw.setKeyword(text);
-				int kid = wordCtrl.getNewId();
-				kw.setKid(  kid );
-				wordCtrl.saveOne(kw);
+				List<Keyword> kws = wordDao.getSepwordsAndSave(text );
 				
-//				UserController uc = new UserController(basicDataSource);
-				User user = new User();
-				user.setIp( ip);
-//				user.setKid(kid  );
-				userCtrl.saveOne(user);
+				User newUser = userDao.saveNewUser(ip);
+				userDao.saveSearchHistory(newUser, kws);
 				
 				LawSearcher sr = new LawSearcher();
 				
-				LawEntrysRes les = sr.searchPost( text, 1, 10);
+				LawEntrysRes les = sr.searchContent( text, 1, 10);
 				mw= new ModelAndView("/result", "les", les);
 			}
 		}
