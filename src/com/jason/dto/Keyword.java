@@ -10,9 +10,23 @@ public class Keyword {
 	private int count;
 	private Set<KeywordHistory> historys;
 	
+	private String searchWord;
 	
 	
-	
+	public String getSearchWord() {
+		return searchWord;
+	}
+
+
+
+
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
+	}
+
+
+
+
 	public static String getPk() {
 		return pk;
 	}
@@ -71,7 +85,7 @@ public class Keyword {
 
 	@Override
 	public String toString() {
-		String res = "Keyword [kid=" + kid + ", count=" + count + ",\n (Keyhistorys:";
+		String res = "Keyword [kid=" + kid + ",searchText="+searchWord+", count=" + count + ",\n (Keyhistorys:";
 		if(historys!=null){
 			Iterator<KeywordHistory> itr = historys.iterator();
 			while(itr.hasNext()){

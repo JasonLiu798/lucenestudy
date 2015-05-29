@@ -10,6 +10,10 @@
         
         <property name="count"></property>
         
+        <property name="searchWord">
+        	<column name="search_word"/>
+        </property>
+        
         <set name="historys" inverse="true" lazy="false">
         	<key column="kid" ></key>
             <one-to-many class="com.jason.dto.KeywordHistory"/>

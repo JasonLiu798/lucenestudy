@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.sf.json.JSONArray;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -12,6 +15,7 @@ import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.jason.dto.Keyword;
 import com.jason.dto.KeywordHistory;
 import com.jason.lucene.PackedAnalyzer;
@@ -46,13 +50,21 @@ public class KeywordDAO {
 	public KeywordDAO() {
 	}
 	
-		
-	public KeywordHistory isExistKeyword(String word){
-		KeywordHistory res = null;
+	public List<Keyword> getRecomandKeyword(String text){
 		Session session = sessionFactory.openSession();
-		Criteria crit = session.createCriteria(KeywordHistory.class).add( Restrictions.eq("searchWord", word) );
+		Criteria crit = session.createCriteria(Keyword.class).add( Restrictions.like("searchWord", text+"%") );
+		List<Keyword> res = crit.list();
+		session.close();
+		return res;
+		
+	}
+		
+	public Keyword isExistKeyword(String word){
+		Keyword res = null;
+		Session session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(Keyword.class).add( Restrictions.eq("searchWord", word) );
 		if( crit.list().size()>0 ){
-			res = (KeywordHistory) crit.list().get(0);
+			res = (Keyword) crit.list().get(0);
 		}
 		session.close();
 		return res;
@@ -78,24 +90,28 @@ public class KeywordDAO {
 				KeywordHistory newkh = new KeywordHistory();
 				String word = itr.next();
 				
-				KeywordHistory oldkh = isExistKeyword(word);
+				Keyword oldKey = isExistKeyword(word);
 				Keyword kw = null;
 				int kid = 0;
-				if( oldkh == null ){
+				if( oldKey == null ){
+					//new keyword
 					kw = new Keyword();
 					kid = getNewId();
 					kw.setKid( kid  );
 					kw.setCount( 1 );
+					kw.setSearchWord( word );
 					saveOneKeyword(kw);
 				}else{
-					kw = new Keyword();
-					kid = oldkh.getKeyword().getKid();
-					kw.setKid( kid );
-					kw.setCount( oldkh.getKeyword().getCount() );
-					addCount(kw);
+					//change old keyword
+//					kw = new Keyword();
+//					kid = oldkh.getKid();
+//					kw.setKid( kid );
+//					kw.setCount( oldkh.getCount() );
+//					kw.setSearchWord( word );
+					kw = oldKey;
+					addCount(oldKey);
 				}
 				newkh.setKeyword( kw  );
-				newkh.setSearchWord( word );
 				newkh.setSearchTime( new Date() );
 				res.add(kw);
 				saveOneSearch(newkh);
@@ -154,9 +170,25 @@ public class KeywordDAO {
 		KeywordDAO kc  = (KeywordDAO)factory.getBean("keywordDao");
 		
 //		kc.getSepwordsAndSave("环境保护");
+		List<Keyword> lk = kc.getRecomandKeyword("环");
+		Iterator<Keyword> itr = lk.iterator();
+		while(itr.hasNext() ){
+			Keyword kw = itr.next();
+			kw.setHistorys(null);			
+		}
 		
-		KeywordHistory kh = kc.isExistKeyword("环境");
-		System.out.println(kh);
+		JSONArray jsonArr = JSONArray.fromObject(lk);
+		System.out.println(jsonArr);
+		
+//		
+//		Iterator<Keyword> itr = lk.iterator();
+//		while(itr.hasNext() ){
+//			Keyword kw = itr.next();
+//			System.out.println(kw);
+//		}
+		
+//		Keyword kh = kc.isExistKeyword("环境");
+//		System.out.println(kh);
 		
 //		System.out.println(kc.getNewId());
 //		Keyword kw = new Keyword();

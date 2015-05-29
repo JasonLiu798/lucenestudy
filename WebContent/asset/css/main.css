@@ -4,6 +4,7 @@
 	background-image: url(../image/hero.jpg);
 	background-size: cover;
 	color: #fff;
+	padding-bottom: 70px;
 }
 
 .resbody{
@@ -11,12 +12,13 @@
 	background-image: url(../image/hero.jpg);
 	background-size: cover;
 	color: #fff;
+	padding-bottom: 70px;
 }
 .hightlightres{
 	color: FFFF99;
 }
 .searchbox{
-	width:778px; margin:100px auto; text-align:center;
+	width:778px; margin:170px auto; text-align:center;
 }
 
 .searchform{

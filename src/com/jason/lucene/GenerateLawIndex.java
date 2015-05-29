@@ -55,7 +55,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.jason.dao.LawEntryDAO;
 import com.jason.dto.LawEntry;
-import com.jason.tool.Constant;
+import com.jason.tools.Constant;
 import com.zb.mmseg.analysis.MMSegAnalyzer;
 
 public class GenerateLawIndex {

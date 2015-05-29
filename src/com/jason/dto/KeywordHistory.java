@@ -5,10 +5,12 @@ import java.util.Date;
 public class KeywordHistory {
 	private int khid;
 	
-	private String searchWord;
+	
 	private Date searchTime;
 	
 	private Keyword keyword;
+	
+	
 	
 	public int getKhid() {
 		return khid;
@@ -17,12 +19,7 @@ public class KeywordHistory {
 		this.khid = khid;
 	}
 	
-	public String getSearchWord() {
-		return searchWord;
-	}
-	public void setSearchWord(String searchWord) {
-		this.searchWord = searchWord;
-	}
+	
 	public Date getSearchTime() {
 		return searchTime;
 	}
@@ -38,7 +35,7 @@ public class KeywordHistory {
 	@Override
 	public String toString() {
 		return "KeywordHistory [khid=" + khid  
-				+ ", searchWord=" + searchWord + ", searchTime=" + searchTime+ ",( keyword=kid:" + keyword.getKid()+",cnt:"+keyword.getCount()+ ")]";
+				+ ", searchTime=" + searchTime+ ",( keyword=kid:" + keyword.getKid()+",text:"+keyword.getSearchWord()+",cnt:"+keyword.getCount()+ ")]";
 	}
 	
 	

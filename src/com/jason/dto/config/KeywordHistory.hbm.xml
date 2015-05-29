@@ -10,9 +10,7 @@
         
         <many-to-one name="keyword" class="com.jason.dto.Keyword" column="kid"></many-to-one>
         
-        <property name="searchWord">
-        	<column name="search_word"/>
-        </property>
+        
         
         <property name="searchTime">
         	<column name="search_time"/>

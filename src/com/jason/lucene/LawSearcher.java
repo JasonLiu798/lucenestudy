@@ -49,7 +49,7 @@ import com.jason.dto.Chapter;
 import com.jason.dto.Law;
 import com.jason.dto.LawEntry;
 import com.jason.dto.LawEntrysRes;
-import com.jason.tool.Constant;
+import com.jason.tools.Constant;
 
 /**
  * 
@@ -107,7 +107,7 @@ public class LawSearcher {
 		if (searchText == null || searchText == "") {
 			return null;
 		}
-
+		
 		List<LawEntry> res = new LinkedList<LawEntry>();
 
 		IndexReader ir = getIndexReader(Constant.IDX_DIR);
@@ -286,29 +286,13 @@ public class LawSearcher {
 	
 	public LawEntrysRes searchContent(String searchText,int page,int perPage){
 //		StringBuffer res = new StringBuffer();
+		long timeStart = System.currentTimeMillis();
 		List<LawEntry> lws = search(searchText, page,perPage,new SmartChineseAnalyzer());
 		LawEntrysRes lwres = new LawEntrysRes();
 		lwres.setLelist(lws);
 		lwres.setTotal(this.totalnum);
-//		Iterator<LawEntry>  it = ls.iterator();
-//		while(it.hasNext()){
-//			LawEntry le = it.next();
-//			
-//			res.append( json );
-//		}
-//		JSONObject json = JSONObject.fromObject( lwres );
-		
-//		res = this.totalnum+"#";
-//		int len = l.size();
-//		if(len>0){
-//			for(int i=0;i<len ;i++){
-//				if(i==len-1){
-//					res += l.get(i).getId();
-//				}else{
-//					res += l.get(i).getId()+",";
-//				}
-//			}
-//		}
+		lwres.setCostTime( System.currentTimeMillis()-timeStart );
+		lwres.setSearchText( searchText);
 		return lwres;
 	}
 	

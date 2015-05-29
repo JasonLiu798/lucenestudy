@@ -40,14 +40,18 @@
         <property name="url" value="jdbc:mysql://mysqlserver:3307/exam?characterEncoding=utf-8"/>
         <property name="username" value="root"/>
         <property name="password" value="root"/>
+        
         <property name="initialSize" value="5"/>
         <property name="maxIdle" value="5"/>
         <property name="maxActive" value="20"/>
         <property name="minIdle" value="5"/>
         <property name="logAbandoned" value="true"/>
         <property name="removeAbandoned" value="true"/>
-        <property name="removeAbandonedTimeout" value="30"/>
+        <property name="removeAbandonedTimeout" value="180"/>
         <property name="maxWait" value="50"/>
+        <property name="validationQuery" value="select 1 from dual"/>
+        
+
     </bean>
     
     <bean name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">  
@@ -70,6 +74,12 @@
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+                
+                <!-- <prop key="hibernate.c3p0.timeout">300</prop>
+                <prop key="hibernate.c3p0.testConnectionOnCheckout">true</prop>
+                <prop key="hibernate.c3p0.min_size">5</prop>
+                <prop key="hibernate.c3p0.max_size">20</prop>
+                <prop key="hibernate.c3p0.max_statements">50</prop> -->
              </props>  
          </property>
          <!-- <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" /> -->  

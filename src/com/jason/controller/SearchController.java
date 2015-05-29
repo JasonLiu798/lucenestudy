@@ -1,27 +1,27 @@
 package com.jason.controller;
 
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import net.sf.json.JSONArray;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import com.jason.dao.KeywordDAO;
-import com.jason.dao.LawDAO;
 import com.jason.dao.UserDAO;
-import com.jason.database.DBCPPoolManager;
-import com.jason.dto.Chapter;
 import com.jason.dto.Keyword;
-import com.jason.dto.KeywordHistory;
-import com.jason.dto.Law;
-import com.jason.dto.LawEntry;
 import com.jason.dto.LawEntrysRes;
 import com.jason.dto.User;
 import com.jason.lucene.LawSearcher;
+import com.jason.tools.NetTools;
+import com.jason.tools.StringTools;
 
 public class SearchController implements Controller {
 	
@@ -53,33 +53,51 @@ public class SearchController implements Controller {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse arg1) throws Exception {
-		String err = "";
+		String isRecomand = request.getParameter("getrecomand");
+		String text =StringTools.Iso2Utf8 (request.getParameter("searchtext"));
 		ModelAndView mw = null;
-		String text = request.getParameter("searchtext");
 		
-		String ip = getRemortIP(request);
-		ip = ip+","+getIpAddr(request);
+		String err = "";
 		
-		if(text==null){
-			err = "请输入搜索内容";
+		if(isRecomand!=null){
+			List<Keyword> lk = wordDao.getRecomandKeyword(text);
+			System.out.println("text "+text+" got "+lk.size()+" recomands");
+			Iterator<Keyword> itr = lk.iterator();
+			while(itr.hasNext() ){
+				Keyword kw = itr.next();
+				kw.setHistorys(null);			
+			}
+			JSONArray jsonArr = JSONArray.fromObject(lk);
+			mw= new ModelAndView("/json", "json", jsonArr );
 		}else{
-			if(text.length()==0){
+			String ip = NetTools.getRemortIP(request);
+			ip = ip+","+NetTools.getIpAddr(request);
+			
+			if(text==null){
 				err = "请输入搜索内容";
-			}else if(text.length()>1024){
-				err = "查询内容过长";
 			}else{
-				List<Keyword> kws = wordDao.getSepwordsAndSave(text );
-				
-				User newUser = userDao.saveNewUser(ip);
-				userDao.saveSearchHistory(newUser, kws);
-				
-				LawSearcher sr = new LawSearcher();
-				
-				LawEntrysRes les = sr.searchContent( text, 1, 10);
-				mw= new ModelAndView("/result", "les", les);
+				text = text.trim();
+				if( text.length()==0 ){
+					err = "请输入搜索内容";
+				}else if(text.length()>1024){
+					err = "查询内容过长";
+				}else{
+					List<Keyword> kws = wordDao.getSepwordsAndSave(text );
+					
+					User newUser = userDao.saveNewUser(ip);
+					userDao.saveSearchHistory(newUser, kws);
+					
+					LawSearcher sr = new LawSearcher();
+					
+					LawEntrysRes les = sr.searchContent( text, 1, 10);
+					Map<String,Object> data = new HashMap<String,Object>();  
+				    data.put("res", les);
+				    data.put("keywords", kws );
+				    
+					mw= new ModelAndView("/result", "data", data );
+				}
 			}
 		}
-		
 		if(err.length()>0){
 			mw= new ModelAndView("/error", "error", err);
 		}
@@ -87,26 +105,7 @@ public class SearchController implements Controller {
 	}
 	
 	
-	public String getRemortIP(HttpServletRequest request) {  
-	    if (request.getHeader("x-forwarded-for") == null) {  
-	        return request.getRemoteAddr();  
-	    }  
-	    return request.getHeader("x-forwarded-for");  
-	}  
-
-	public String getIpAddr(HttpServletRequest request) {  
-	    String ip = request.getHeader("x-forwarded-for");  
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	        ip = request.getHeader("Proxy-Client-IP");  
-	    }  
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	        ip = request.getHeader("WL-Proxy-Client-IP");  
-	    }  
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	        ip = request.getRemoteAddr();  
-	    }  
-	    return ip;  
-	}  
+	 
 	
 
 	public static void main(String[] args) {
