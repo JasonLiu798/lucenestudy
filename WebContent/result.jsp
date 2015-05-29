@@ -53,11 +53,11 @@ List<Keyword> keywords = (List<Keyword>) data.get("keywords");
   		LawEntry le = it.next();
   	  %>
   	  <div class="chapterdiv">
-  	  <h2><a href="get.do?type=law&id=<%out.print( le.getChapter().getLaw().getLid() ); %>"><% if( le.getChapter().getLaw().getLid()==1) out.print("环保法"); 
+  	  <h2><a href="law/<%out.print( le.getChapter().getLaw().getLid() ); %>.do"><% if( le.getChapter().getLaw().getLid()==1) out.print("环保法"); 
   	  		 else if(  le.getChapter().getLaw().getLid() ==2) out.print("安全法"); %></a>
   	  </h2>
   	  <h3>
-  	  	<a href="get.do?type=chapter&id=<%out.print(le.getChapter().getCid()); %>"><%=le.getChapter().getCname() %></a>
+  	  	<a href="chapter/<%out.print(le.getChapter().getCid()); %>.do"><%=le.getChapter().getCname() %></a>
   	  </h3>
   	  <h4><%=le.getEname() %>
   	  </h4>

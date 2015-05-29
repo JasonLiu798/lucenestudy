@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Repository;
 
 import com.jason.database.DBCPPoolManager;
 import com.jason.database.DBUtil;
@@ -18,7 +19,7 @@ import com.jason.dto.Law;
 import com.jason.dto.LawEntry;
 import com.jason.dto.User;
 
-
+@Repository
 public class LawDAO {
 	private SessionFactory sessionFactory;
 	

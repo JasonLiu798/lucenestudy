@@ -11,12 +11,14 @@ import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Repository;
 
 import com.jason.dto.Keyword;
 import com.jason.dto.KeywordHistory;
 import com.jason.dto.User;
 import com.jason.dto.UserSearchHistory;
 
+@Repository
 public class UserDAO  {//extends HibernateDaoSupport{
 	private SessionFactory sessionFactory;
 	

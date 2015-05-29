@@ -16,12 +16,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Repository;
 
 import com.jason.dto.Chapter;
 import com.jason.dto.Law;
 import com.jason.dto.LawEntry;
 
-
+@Repository
 public class ChapterDAO {
 	
 	private SessionFactory sessionFactory;

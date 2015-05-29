@@ -1,30 +1,21 @@
 package com.jason.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
-import org.apache.lucene.document.Field.Store;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Repository;
 
-import com.jason.database.DBUtil;
 import com.jason.dto.Chapter;
 import com.jason.dto.LawEntry;
-import com.jason.dto.User;
 
+@Repository
 public class LawEntryDAO {
 	
 	private SessionFactory sessionFactory;
