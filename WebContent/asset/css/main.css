@@ -7,6 +7,10 @@
 	padding-bottom: 70px;
 }
 
+
+#searchtext{
+	width:300px;
+}
 .resbody{
 	/*background-image: url(https://laracasts.com/images/hero.jpg);*/
 	background-image: url(../image/hero.jpg);
@@ -20,10 +24,34 @@
 .searchbox{
 	width:778px; margin:170px auto; text-align:center;
 }
+.costtime{
+	color: #F9604C;/*éÙ»ÆÉ«*/
+}
 
 .searchform{
 	width:778px; margin:20 auto; text-align:center;
 }
+/** auto complete box**/
+.recomand{
+	border:1px black solid;
+	position:absolute;
+	color:black;
+	text-align:left;
+/*	.css("position","absolute")
+				.css("top",wordInputOffset.top + wordInput.height() + 5 + "px")
+				.css("left", wordInputOffset.left + "px")
+				.width(	wordInput.width() + 2);
+				*/
+}
+.recomanditem{
+	padding-left:10px;
+	background-color:white;
+}
+.recomanditem_hightlight{
+	padding-left:10px;
+	background-color:#eee;
+}
+
 
 .res{
 	margin:10 10 10 50;

@@ -1,6 +1,8 @@
 package com.jason.controller;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,12 +16,16 @@ import net.sf.json.JSONArray;
 
 import com.jason.dao.KeywordDAO;
 import com.jason.dao.UserDAO;
+import com.jason.dto.JsonRes;
 import com.jason.dto.Keyword;
 import com.jason.dto.LawEntrysRes;
 import com.jason.dto.User;
 import com.jason.lucene.LawSearcher;
 import com.jason.tools.NetTools;
 import com.jason.tools.StringTools;
+
+
+
 
 
 
@@ -40,24 +46,35 @@ public class SearchController { //implements Controller {
 	
 	@RequestMapping("/recomand")
 	@ResponseBody 
-    public List<Keyword> recomand(@RequestParam("usertext") String usertext,  HttpSession session, HttpServletResponse response){//Map<String, Object> map) {
-		usertext = StringTools.Iso2Utf8(usertext);
+    public JsonRes recomand(@RequestParam("usertext") String usertext,  HttpSession session, HttpServletResponse response){//Map<String, Object> map) {
+		JsonRes jr = new JsonRes();
+		try {
+			usertext = URLDecoder.decode(URLDecoder.decode( usertext, "utf-8") , "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			jr.setError("解码错误");
+			e.printStackTrace();
+		}
+//		usertext = StringTools.Iso2Utf8(usertext);
 		System.out.println("recomand action "+usertext);
 		
 		List<Keyword> lk = wordDao.getRecomandKeyword(usertext);
-		if(lk!=null){
+		if(lk!=null && lk.size()>0 ){
 			System.out.println("text "+usertext+" got "+lk.size()+" recomands");
 			Iterator<Keyword> itr = lk.iterator();
 			while(itr.hasNext() ){
 				Keyword kw = itr.next();
 				kw.setHistorys(null);
 			}
+			jr.setStatus("yes");
+			jr.setDatas(lk); 
+		}else{
+			jr.setStatus("no");
 		}
 //		ModelAndView mav = new ModelAndView("jsonView");
 //		mav.addObject(lk);
 		//JSONArray jsonArr = JSONArray.fromObject(lk);
 //		mw= new ModelAndView("/json", "json", jsonArr );
-        return lk;
+        return jr;
     }
 	
 	@RequestMapping("/search")  

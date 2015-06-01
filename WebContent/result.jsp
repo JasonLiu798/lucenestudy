@@ -22,7 +22,7 @@ List<Keyword> keywords = (List<Keyword>) data.get("keywords");
   
 	<div class="res">
 		<div >
-		搜索“<% out.print( les.getSearchText() ); %>”共耗时<% out.print( les.getCostTime() ); %>毫秒
+		搜索“<% out.print( les.getSearchText() ); %>”共耗时<span class="costtime"><% out.print( les.getCostTime() ); %></span>毫秒
 		<% 	
 			if(keywords.size()>0){
 				out.print("，其中");
