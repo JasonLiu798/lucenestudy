@@ -7,31 +7,19 @@ import org.apache.lucene.document.Field.Store;
 
 public class LawEntry {
 	
-	public String getCname() {
-		return cname;
-	}
-	
-	public void setCname(String cname) {
-		this.cname = cname;
-	}
-
-	private int lid;
-	public int getLid() {
-		return lid;
-	}
-
-	public void setLid(int lid) {
-		this.lid = lid;
-	}
-
 	private int eid;
-	private String cname;
 	private String ename;
-	
-	private int cid;
 	private String content;
-	
 	private String searchRes;
+	private Chapter chapter;
+	
+	public Chapter getChapter() {
+		return chapter;
+	}
+
+	public void setChapter(Chapter chapter) {
+		this.chapter = chapter;
+	}
 	
 	public String getSearchRes() {
 		return searchRes;
@@ -41,12 +29,6 @@ public class LawEntry {
 		this.searchRes = searchRes;
 	}
 
-	public int getCid() {
-		return cid;
-	}
-	public void setCid(int cid) {
-		this.cid = cid;
-	}
 	public String getContent() {
 		return content;
 	}
@@ -70,18 +52,17 @@ public class LawEntry {
 	
 	@Override
 	public String toString() {
-		return "LawEntry (lid="+lid +", eid=" + eid + ", ename=" + ename + ", cid=" + cid +", cname="+cname 
-				+ ", content=" + content + ")";
+		return "LawEntry (eid=" + eid + ", ename=" + ename + ", content=" + content +"[chapter:cid:"+ chapter.getCid()+ ",cname:"+chapter.getCname() +"])";
 	}
 	
 	public Document createDoc()  {  
         Document doc = new Document();  
         //就像有某个商品，查询结果列表要展示商品的名称，ID，和跳转链接地址，所以从数据库取出name,id,url字段  
-        doc.add(new StringField("lid", this.lid+""  ,  Store.YES) );
+        doc.add(new StringField("lid", this.chapter.getLaw().getLid() +""  ,  Store.YES) );
         doc.add(new StringField("eid", this.eid+""  ,  Store.YES) );
-        doc.add(new StringField("cid", this.cid+""  ,  Store.YES) );
+        doc.add(new StringField("cid", this.chapter.getCid() +""  ,  Store.YES) );
         
-        doc.add(new TextField("cname", this.cname , Store.YES));
+        doc.add(new TextField("cname", this.chapter.getCname() , Store.YES));
         doc.add(new TextField("ename", this.ename , Store.YES));
         doc.add(new TextField("content", this.content , Store.YES));
         

@@ -45,9 +45,11 @@ import org.apache.lucene.util.Version;
 
 import java.util.Iterator;
 
+import com.jason.dto.Chapter;
+import com.jason.dto.Law;
 import com.jason.dto.LawEntry;
 import com.jason.dto.LawEntrysRes;
-import com.jason.tool.Constant;
+import com.jason.tools.Constant;
 
 /**
  * 
@@ -105,7 +107,7 @@ public class LawSearcher {
 		if (searchText == null || searchText == "") {
 			return null;
 		}
-
+		
 		List<LawEntry> res = new LinkedList<LawEntry>();
 
 		IndexReader ir = getIndexReader(Constant.IDX_DIR);
@@ -231,11 +233,22 @@ public class LawSearcher {
 							// + enameField+ doc.get(enameField)+","
 							// + contentField+doc.get(contentField) );
 							LawEntry lw = new LawEntry();
-
-							lw.setLid(Integer.parseInt(doc.get(lidField)));
-							lw.setCid(Integer.parseInt(doc.get(cidField)));
+							
+							int cid = Integer.parseInt(doc.get(cidField));
+//							lw.setCid( cid );
 							lw.setEid(Integer.parseInt(doc.get(eidField)));
-							lw.setCname(doc.get(cnameField));
+							
+							Law law = new Law();
+							law.setLid( Integer.parseInt( doc.get(lidField)) );
+							
+							Chapter ch = new Chapter();
+							ch.setCid( cid );
+							ch.setCname( doc.get(cnameField) );
+							ch.setLaw(law);
+							lw.setChapter( ch );
+							
+//							lw.setCname(doc.get(cnameField));
+							
 							lw.setEname(doc.get(enameField));
 							lw.setContent(doc.get(contentField));
 							
@@ -271,31 +284,15 @@ public class LawSearcher {
 
 	private int totalnum;
 	
-	public LawEntrysRes searchPost(String searchText,int page,int perPage){
+	public LawEntrysRes searchContent(String searchText,int page,int perPage){
 //		StringBuffer res = new StringBuffer();
+		long timeStart = System.currentTimeMillis();
 		List<LawEntry> lws = search(searchText, page,perPage,new SmartChineseAnalyzer());
 		LawEntrysRes lwres = new LawEntrysRes();
 		lwres.setLelist(lws);
 		lwres.setTotal(this.totalnum);
-//		Iterator<LawEntry>  it = ls.iterator();
-//		while(it.hasNext()){
-//			LawEntry le = it.next();
-//			
-//			res.append( json );
-//		}
-//		JSONObject json = JSONObject.fromObject( lwres );
-		
-//		res = this.totalnum+"#";
-//		int len = l.size();
-//		if(len>0){
-//			for(int i=0;i<len ;i++){
-//				if(i==len-1){
-//					res += l.get(i).getId();
-//				}else{
-//					res += l.get(i).getId()+",";
-//				}
-//			}
-//		}
+		lwres.setCostTime( System.currentTimeMillis()-timeStart );
+		lwres.setSearchText( searchText);
 		return lwres;
 	}
 	
@@ -362,7 +359,7 @@ public class LawSearcher {
 		String searchStr = "和国家标准";
 
 		// List<PostVO> l = sr.search(searchStr, 1,10,new PaodingAnalyzer());
-		LawEntrysRes lwres = sr.searchPost( searchStr, 1, 10);
+		LawEntrysRes lwres = sr.searchContent( searchStr, 1, 10);
 		System.out.println( lwres.getLelist() );
 
 		// System.out.println("res:"+res);

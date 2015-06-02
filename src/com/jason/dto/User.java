@@ -4,8 +4,15 @@ public class User {
 	
 	private int uid;
 	private String ip;
+	private static String pk="uid";
+	
 
-
+	public static String getPk() {
+		return pk;
+	}
+	public static void setPk(String pk) {
+		User.pk = pk;
+	}
 	public int getUid() {
 		return uid;
 	}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'  
+        'http://10.185.3.239/schema/hibernate-mapping-3.0.dtd'>  
+<hibernate-mapping>  
+    <class name="com.jason.dto.LawEntry" table="lawentry">  
+        <id name="eid">  
+            <generator class="assigned"/>  
+        </id>
+        
+        <property name="ename"></property>
+        <property name="content"></property>
+        
+        <many-to-one name="chapter" class="com.jason.dto.Chapter" column="cid">
+        </many-to-one>
+    </class>  
+</hibernate-mapping>

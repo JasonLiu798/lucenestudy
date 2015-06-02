@@ -1,13 +1,16 @@
+<%@page import="com.jason.dto.KeywordHistory"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="com.jason.dto.LawEntrysRes" %>
 <%@ page import="com.jason.dto.LawEntry" %>
+<%@ page import="com.jason.dto.Keyword" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ include file="head.jsp"%>
 
 <%
-LawEntrysRes les = (LawEntrysRes)request.getAttribute("les");
-
+Map data = (Map)request.getAttribute("data");
+LawEntrysRes les = (LawEntrysRes)data.get("res");
+List<Keyword> keywords = (List<Keyword>) data.get("keywords");
 
 %>
 	
@@ -18,6 +21,28 @@ LawEntrysRes les = (LawEntrysRes)request.getAttribute("les");
   <%@ include file="searchform.jsp"%>
   
 	<div class="res">
+		<div >
+		搜索“<% out.print( les.getSearchText() ); %>”共耗时<span class="costtime"><% out.print( les.getCostTime() ); %></span>毫秒
+		<% 	
+			if(keywords.size()>0){
+				out.print("，其中");
+				Iterator<Keyword> itKeyword = keywords.iterator();
+				int i=0;
+				int len = keywords.size();
+				while(itKeyword.hasNext()){
+					Keyword kw = itKeyword.next();
+					
+					if( i==len-1 ){
+				%>
+					“<% out.print( kw.getSearchWord() ); %>”热度为<% out.print( kw.getCount() ); %>
+				<%}else{%>
+					“<% out.print( kw.getSearchWord() ); %>”热度为<% out.print( kw.getCount() ); %>，
+		<%		
+					i++;
+				}
+			}
+		}%>
+		</div>
   <% 
   if(les!=null){
 		List<LawEntry> lws = les.getLelist();//les.getLelist();	
@@ -28,11 +53,11 @@ LawEntrysRes les = (LawEntrysRes)request.getAttribute("les");
   		LawEntry le = it.next();
   	  %>
   	  <div class="chapterdiv">
-  	  <h2><a href="get.do?type=law&id=<%out.print(le.getLid()); %>"><% if(le.getLid()==1) out.print("环保法"); 
-  	  		 else if(le.getLid()==2) out.print("安全法"); %></a>
+  	  <h2><a href="law/<%out.print( le.getChapter().getLaw().getLid() ); %>.do"><% if( le.getChapter().getLaw().getLid()==1) out.print("环保法"); 
+  	  		 else if(  le.getChapter().getLaw().getLid() ==2) out.print("安全法"); %></a>
   	  </h2>
   	  <h3>
-  	  	<a href="get.do?type=chapter&id=<%out.print(le.getCid()); %>"><%=le.getCname() %></a>
+  	  	<a href="chapter/<%out.print(le.getChapter().getCid()); %>.do"><%=le.getChapter().getCname() %></a>
   	  </h3>
   	  <h4><%=le.getEname() %>
   	  </h4>

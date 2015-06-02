@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'  
+        'http://10.185.3.239/schema/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>  
+    <class name="com.jason.dto.KeywordHistory" table="keyword_history">  
+        <id name="khid">  
+            <generator class="assigned"/>
+        </id>
+        
+        <many-to-one name="keyword" class="com.jason.dto.Keyword" column="kid"></many-to-one>
+        
+        
+        
+        <property name="searchTime">
+        	<column name="search_time"/>
+        </property>
+        
+    </class>
+</hibernate-mapping>

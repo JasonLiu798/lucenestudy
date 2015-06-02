@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'  
+        'http://10.185.3.239/schema/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>  
+    <class name="com.jason.dto.Keyword" table="keyword">  
+        <id name="kid">  
+            <generator class="assigned"/>
+        </id>
+        
+        <property name="count"></property>
+        
+        <property name="searchWord">
+        	<column name="search_word"/>
+        </property>
+        
+        <set name="historys" inverse="true" lazy="false">
+        	<key column="kid" ></key>
+            <one-to-many class="com.jason.dto.KeywordHistory"/>
+        </set>
+        
+        
+    </class>
+</hibernate-mapping>

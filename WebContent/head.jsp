@@ -26,5 +26,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  
+  	
   	<link rel="stylesheet" href="asset/css/main.css">
+  	
+  	<script src="<%=basePath%>asset/js/constant.js"></script>
+  	<script src="<%=basePath%>asset/js/recomand.js"></script>
+  	
+  	
+  	
+  	

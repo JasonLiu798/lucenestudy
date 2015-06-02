@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
 public class PackedAnalyzer {
@@ -37,6 +38,10 @@ public class PackedAnalyzer {
 	    return result;  
 	}
 	
+	
+	public List<String> getWords(String str){
+		return getWords(str, new SmartChineseAnalyzer()); 
+	}
 	/**
 	 * 获取分词
 	 * @param str

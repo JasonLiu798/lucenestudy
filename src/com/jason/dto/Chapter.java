@@ -2,63 +2,80 @@ package com.jason.dto;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class Chapter {
 	
+	private Law law;
+	
 	private int cid;
-	private int lid;
 	private String cname;
 	
-	private List<LawEntry> lawEntrys;
+	private Set<LawEntry> lawEntrys;
 	
-	public int getLid() {
-		return lid;
+	
+	
+	public Law getLaw() {
+		return law;
 	}
-	public void setLid(int lid) {
-		this.lid = lid;
+
+
+
+	public void setLaw(Law law) {
+		this.law = law;
 	}
-	public List<LawEntry> getLawEntrys() {
-		return lawEntrys;
-	}
-	public void setLawEntrys(List<LawEntry> lawEntrys) {
-		this.lawEntrys = lawEntrys;
-	}
+
+
+
 	public int getCid() {
 		return cid;
 	}
+
+
+
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
+
+
+
 	public String getCname() {
 		return cname;
 	}
+
+
+
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
-	
+
+
+
+	public Set<LawEntry> getLawEntrys() {
+		return lawEntrys;
+	}
+
+
+
+	public void setLawEntrys(Set<LawEntry> lawEntrys) {
+		this.lawEntrys = lawEntrys;
+	}
+
+
+
 	@Override
 	public String toString() {
-		String res = "Chapter {cid=" + cid + ", cname=" + cname +"}";
-//		StringBuffer str = new StringBuffer();
-//		str.append("Chapter {cid=" + cid + ", cname=" + cname +"}");
-//		
-//		str.append("LawEntrys=");
-//		str.append("Chapter {cid=" + cid + ", cname=" + cname+",LawEntrys=[" );
+		String res = "Chapter {cid=" + cid + ", cname=" + cname +"[law:lid "+law.getLid()+",lname:"+law.getLname()+"\n(Lawentrys:";
+		
 		if(lawEntrys!=null){
 			Iterator it =  lawEntrys.iterator();
 			while(it.hasNext() ){
 				LawEntry tmpCp = (LawEntry) it.next();
-				res+=""+tmpCp;
-//				str.append( tmpCp+"" );
-////				System.out.println( tmpCp);
-//				System.out.println(tmpCp);
+				res+=""+tmpCp+"\n";
 			}
-		}else{
-//			str.append(" null");
 		}
+		res += ")}\n";
 		return res;//str.toString();
-	
-
 	}
 	
 }
