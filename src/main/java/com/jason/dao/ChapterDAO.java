@@ -36,8 +36,7 @@ public class ChapterDAO {
 	
 	public Chapter getChapterById(int cid){
 		Session session = sessionFactory.openSession();
-		Criteria crit = session.createCriteria(Chapter.class)
-				.add( Restrictions.eq("cid", cid) );
+		Criteria crit = session.createCriteria(Chapter.class).add( Restrictions.eq("cid", cid) );
 		List<Chapter> res = crit.list();
 		session.close();
 		return res.get(0);
@@ -47,8 +46,7 @@ public class ChapterDAO {
 		Law law = new Law();
 		law.setLid(lid);
 		Session session = sessionFactory.openSession();
-		Criteria crit = session.createCriteria(Chapter.class)
-				.add( Restrictions.eq("law", law) );
+		Criteria crit = session.createCriteria(Chapter.class).add( Restrictions.eq("law", law) );
 		List<Chapter> res = crit.list();
 		session.close();
 		return res;
